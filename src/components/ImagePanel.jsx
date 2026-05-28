@@ -44,15 +44,15 @@ function ImageModal({ image, isOpen, onClose, onPrev, onNext }) {
 
 // Emotion label descriptions
 function getEmotionLabel(score) {
-  if (score >= 9) return { text: 'Mildly Amused', color: 'text-green-400', icon: 'fa-smile' }
-  if (score >= 7) return { text: 'Slightly Interested', color: 'text-lime-400', icon: 'fa-meh' }
-  if (score >= 4) return { text: 'Default Unimpressed', color: 'text-gray-400', icon: 'fa-meh-blank' }
-  if (score >= 2) return { text: 'Annoyed', color: 'text-yellow-400', icon: 'fa-frown' }
-  if (score >= 1) return { text: 'Very Annoyed', color: 'text-orange-400', icon: 'fa-angry' }
-  return { text: 'Actively Miserable', color: 'text-red-400', icon: 'fa-sad-tear' }
+  if (score >= 9) return { text: 'Mildly Amused', color: 'text-daria-green', icon: 'fa-smile' }
+  if (score >= 7) return { text: 'Slightly Interested', color: 'text-daria-green', icon: 'fa-meh' }
+  if (score >= 4) return { text: 'Default Unimpressed', color: 'text-daria-text-muted', icon: 'fa-meh-blank' }
+  if (score >= 2) return { text: 'Annoyed', color: 'text-daria-orange', icon: 'fa-frown' }
+  if (score >= 1) return { text: 'Very Annoyed', color: 'text-daria-orange', icon: 'fa-angry' }
+  return { text: 'Actively Miserable', color: 'text-daria-orange', icon: 'fa-sad-tear' }
 }
 
-export default function ImagePanel({ expressionScore = 5 }) {
+export default function ImagePanel({ expressionScore = 5, affectionLevel }) {
   const [selectedImage, setSelectedImage] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [currentExpression, setCurrentExpression] = useState(getDefaultExpression())
@@ -86,12 +86,12 @@ export default function ImagePanel({ expressionScore = 5 }) {
   }
 
   return (
-    <div className="w-full h-screen bg-[#1a1a1a] text-white flex flex-col min-w-0">
+    <div className="w-full h-screen bg-daria-bg text-daria-text flex flex-col min-w-0">
       {/* Portrait Section */}
-      <div className="flex-shrink-0 p-6 flex flex-col items-center justify-center border-b border-gray-700 bg-gradient-to-b from-[#3d2b4f]/20 via-[#1a1a1a] to-[#1a4a2e]/10">
+      <div className="flex-shrink-0 p-6 flex flex-col items-center justify-center border-b border-daria-border bg-gradient-to-b from-daria-purple-muted/20 via-daria-bg to-daria-green-muted/10">
         {/* Portrait Frame */}
         <div className="relative group">
-          <div className="w-56 h-56 rounded-2xl overflow-hidden bg-gray-800 border-4 border-gray-600 shadow-2xl relative">
+          <div className="w-56 h-56 rounded-2xl overflow-hidden bg-daria-surface border-4 border-daria-border shadow-2xl relative">
             {hasExpression ? (
               <img
                 src={currentExpression}
@@ -99,7 +99,7 @@ export default function ImagePanel({ expressionScore = 5 }) {
                 className="w-full h-full object-cover transition-all duration-500"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-500">
+              <div className="w-full h-full flex items-center justify-center text-daria-text-dim">
                 <div className="text-center">
                   <i className="fas fa-image text-4xl mb-2"></i>
                   <p className="text-xs">Add expression images to</p>
@@ -110,41 +110,68 @@ export default function ImagePanel({ expressionScore = 5 }) {
           </div>
 
           {/* Score badge */}
-          <div className={`absolute -top-3 -left-3 w-10 h-10 rounded-full border-4 border-[#1a1a1a] shadow-lg flex items-center justify-center transition-all duration-500 ${
+          <div className={`absolute -top-3 -left-3 w-10 h-10 rounded-full border-4 border-daria-bg shadow-lg flex items-center justify-center transition-all duration-500 ${
             showScoreChange ? 'scale-125' : 'scale-100'
-          } ${expressionScore >= 7 ? 'bg-green-500' : expressionScore <= 2 ? 'bg-red-500' : 'bg-gray-500'}`}>
+          } ${expressionScore >= 7 ? 'bg-daria-green' : expressionScore <= 2 ? 'bg-daria-orange' : 'bg-daria-surface'}`}>
             <span className="text-white text-xs font-bold">{expressionScore}</span>
           </div>
 
           {/* Online indicator */}
-          <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-daria-orange rounded-full border-4 border-[#1a1a1a] shadow-lg">
+          <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-daria-orange rounded-full border-4 border-daria-bg shadow-lg">
             <div className="w-full h-full bg-daria-orange rounded-full animate-pulse opacity-60"></div>
           </div>
         </div>
 
         {/* Name + Mood */}
         <div className="mt-5 text-center">
-          <h3 className="text-2xl font-bold text-white mb-1">Daria Morgendorffer</h3>
+          <h3 className="text-2xl font-bold text-daria-text mb-1 font-heading">Daria Morgendorffer</h3>
           <div className="flex items-center justify-center gap-2">
             <i className={`fas ${emotion.icon} ${emotion.color} text-sm`}></i>
             <p className={`${emotion.color} text-sm transition-colors duration-500`}>
               {emotion.text}
             </p>
           </div>
-          <p className="text-gray-500 text-xs mt-3 italic max-w-xs leading-relaxed transition-opacity duration-500">
+          <p className="text-daria-text-dim text-xs mt-3 italic max-w-xs leading-relaxed transition-opacity duration-500">
             "{DARIA_QUOTES[quoteIndex]}"
           </p>
         </div>
       </div>
 
+      {/* Affection Level Section */}
+      {affectionLevel && (
+        <div className="flex-shrink-0 px-6 py-4 border-b border-daria-border bg-daria-bg/80">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <i className="fas fa-heart text-daria-pink text-xs"></i>
+              <span className="text-sm font-semibold text-daria-text font-heading">
+                {affectionLevel.label}
+              </span>
+            </div>
+            <span className="text-xs text-daria-text-muted">{affectionLevel.score}/{affectionLevel.max}</span>
+          </div>
+          {/* Progress bar */}
+          <div className="w-full h-1.5 bg-daria-border rounded-full overflow-hidden mb-2">
+            <div
+              className="h-full bg-gradient-to-r from-daria-pink to-daria-orange rounded-full transition-all duration-500"
+              style={{
+                width: `${Math.min(100, ((affectionLevel.score - affectionLevel.min) / (affectionLevel.max - affectionLevel.min)) * 100)}%`
+              }}
+            />
+          </div>
+          <p className="text-xs text-daria-text-dim italic leading-relaxed">
+            "{affectionLevel.description}"
+          </p>
+        </div>
+      )}
+
       {/* Gallery Section */}
       <div className="flex-1 p-4 overflow-y-auto min-h-0">
         <div className="mb-3">
-          <h2 className="text-lg font-bold mb-1 flex items-center gap-2">
+          <h2 className="text-lg font-bold mb-1 flex items-center gap-2 font-heading">
             <i className="fas fa-images text-daria-purple"></i>
             Gallery
           </h2>
-          <p className="text-gray-500 text-xs">Images from Lawndale and beyond</p>
+          <p className="text-daria-text-dim text-xs">Images from Lawndale and beyond</p>
         </div>
 
         {galleryImages.length > 0 ? (
@@ -153,7 +180,7 @@ export default function ImagePanel({ expressionScore = 5 }) {
               <div
                 key={image.id}
                 onClick={() => handleImageClick(image)}
-                className="aspect-square bg-gray-800 rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-daria-purple/50 transition-all group"
+                className="aspect-square bg-daria-surface rounded-card overflow-hidden cursor-pointer hover:ring-2 hover:ring-daria-purple/50 transition-all group"
               >
                 <img
                   src={image.url}
@@ -165,7 +192,7 @@ export default function ImagePanel({ expressionScore = 5 }) {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 text-gray-600">
+          <div className="text-center py-12 text-daria-text-dim">
             <i className="fas fa-folder-open text-4xl mb-3 block"></i>
             <p className="text-sm">No gallery images yet</p>
             <p className="text-xs mt-1">Add images to src/assets/gallery/</p>

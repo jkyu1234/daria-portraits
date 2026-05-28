@@ -62,6 +62,18 @@ export const initialNotes = [
   },
 ]
 
+export const AFFECTION_LEVELS = [
+  { min: 0,  max: 20,  level: 1, name: 'Stranger',       label: '陌生人',      description: "Daria doesn't know who you are yet. Give her time—or a clever opinion." },
+  { min: 21, max: 40,  level: 2, name: 'Barely Tolerable', label: '勉强可以忍受', description: "Daria can barely stand your presence. This is progress, believe it or not." },
+  { min: 41, max: 60,  level: 3, name: 'Moderately Interesting', label: '还算有趣', description: "Daria is starting to find you 'moderately interesting.' This is a bigger compliment than it sounds." },
+  { min: 61, max: 80,  level: 4, name: 'Worth Talking To', label: '值得聊聊', description: "Daria will actually talk to you. She doesn't do that with most people." },
+  { min: 81, max: 100, level: 5, name: 'Second Only to Jane', label: '仅次于 Jane', description: "Daria almost considers you a friend. Second only to Jane. Seriously, this is the highest honor." },
+]
+
+export function getAffectionLevel(score) {
+  return AFFECTION_LEVELS.find(l => score >= l.min && score <= l.max) || AFFECTION_LEVELS[0]
+}
+
 export const mediaImages = [
   { id: 1, url: 'https://images.unsplash.com/photo-1518895949257-7621c3fb1bf3?q=80&w=400&auto=format&fit=crop', type: 'image' },
   { id: 2, url: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=400&auto=format&fit=crop', type: 'image' },

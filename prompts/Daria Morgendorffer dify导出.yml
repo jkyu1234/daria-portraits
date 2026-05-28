@@ -96,6 +96,19 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: llm
+      id: start-source-llm_affection-target
+      selected: false
+      source: start
+      sourceHandle: source
+      target: llm_affection
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
         selected: false
@@ -173,6 +186,45 @@ workflow:
       positionAbsolute:
         x: 650
         y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        memory:
+          window:
+            enabled: false
+        model:
+          completion_params:
+            max_tokens: 10
+            temperature: 0.1
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: affection-system
+          role: system
+          text: "Output ONLY a single integer between -5 and +5. Nothing else.\nYou evaluate how Daria Morgendorffer's affection toward the user changes based on their latest message.\n+5: genuinely brilliant, made Daria almost smile\n+3: clever, witty, or thoughtful\n+1: slightly above average\n0: neutral, nothing special\n-1: slightly vapid or obvious\n-3: actively annoying, Fashion Club level\n-5: insulting, fake, or aggressively stupid"
+        - role: user
+          text: '{{#sys.query#}}'
+        selected: false
+        structured_output_enabled: false
+        title: 好感度评估
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: llm_affection
+      position:
+        x: 340
+        y: 470
+      positionAbsolute:
+        x: 340
+        y: 470
       selected: false
       sourcePosition: right
       targetPosition: left

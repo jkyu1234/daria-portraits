@@ -80,7 +80,8 @@ export async function sendChatMessage(query, options = {}) {
             data: {
               daria_chat: parsed.daria_chat || parsed.elon_chat || '',
               daria_note: parsed.daria_note || parsed.elon_x || null,
-              daria_score: parsed.daria_score || parsed.elon_score || 5
+              daria_score: parsed.daria_score || parsed.elon_score || 5,
+              affection_delta: typeof parsed.affection_delta === 'number' ? parsed.affection_delta : 0
             },
             raw: result
           }
@@ -99,7 +100,8 @@ export async function sendChatMessage(query, options = {}) {
             data: {
               daria_chat: chatText || result.answer,
               daria_note: noteText,
-              daria_score: typeof meta.score === 'number' ? meta.score : 5
+              daria_score: typeof meta.score === 'number' ? meta.score : 5,
+              affection_delta: typeof meta.delta === 'number' ? meta.delta : 0
             },
             raw: result
           }
@@ -112,7 +114,8 @@ export async function sendChatMessage(query, options = {}) {
         data: {
           daria_chat: result.answer,
           daria_note: null,
-          daria_score: 5
+          daria_score: 5,
+          affection_delta: 0
         },
         raw: result
       }
@@ -132,7 +135,8 @@ export async function sendChatMessage(query, options = {}) {
       data: {
         daria_chat: '...Whatever. The system seems to be down. Try again later.',
         daria_note: null,
-        daria_score: 5
+        daria_score: 5,
+        affection_delta: 0
       }
     }
   }
@@ -141,4 +145,10 @@ export async function sendChatMessage(query, options = {}) {
 export function validateApiConfig() {
   const config = getApiConfig()
   return config.isValid
+}
+
+export function getAccumulatedAffection() {
+  if (typeof window === 'undefined') return 20
+  const stored = localStorage.getItem('daria_affection_score')
+  return stored !== null ? Number(stored) : 20
 }

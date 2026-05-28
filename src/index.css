@@ -2,20 +2,124 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  min-height: 100vh;
-  background-color: #1a1a1a;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-.message-container { height: calc(100vh - 160px); }
-button[disabled] { opacity: 0.5; cursor: not-allowed; }
+/* ===== Theme: CSS Custom Properties ===== */
+:root {
+  /* Light mode (default) — 90s animation cel / sketchbook feel */
+  --color-bg:              #f5f0eb;   /* warm off-white, like animation paper */
+  --color-surface:         #ffffff;   /* pure white cards */
+  --color-border:          #d4cfc8;   /* warm gray-tan border */
+  --color-border-light:    #e8e3dc;   /* lighter border */
+  --color-green:           #5a7d5a;   /* muted olive (Daria's jacket) */
+  --color-green-bright:    #6b946b;   /* green hover */
+  --color-green-muted:     #d5e0d0;   /* light green bg */
+  --color-purple:          #7c6b9e;   /* dusty lavender */
+  --color-purple-bright:   #9380b4;   /* purple hover */
+  --color-purple-muted:    #e0d8ec;   /* light purple bg */
+  --color-orange:          #c47d5a;   /* warm terracotta */
+  --color-orange-bright:   #d8916b;   /* orange hover */
+  --color-pink:            #c47a82;   /* muted rose */
+  --color-text:            #2d2a26;   /* dark charcoal */
+  --color-text-muted:      #6b6560;   /* medium warm gray */
+  --color-text-dim:        #99938d;   /* dim warm gray */
 
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  /* Shadows — lighter for light mode */
+  --shadow-card:           0 1px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-glow-green:     0 0 20px rgba(90,125,90,0.15);
+  --shadow-glow-purple:    0 0 20px rgba(124,107,158,0.15);
+  --shadow-glow-orange:    0 0 20px rgba(196,125,90,0.12);
+
+  /* Gradient stops */
+  --gradient-hero-start:   #e8ddf0;
+  --gradient-hero-mid:     #f5f0eb;
+  --gradient-hero-end:     #dde5d8;
 }
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+
+.dark {
+  /* Dark mode — OLED deep black + muted retro neons */
+  --color-bg:              #09090b;
+  --color-surface:         #18181b;
+  --color-border:          #27272a;
+  --color-border-light:    #27272a;
+  --color-green:           #4a7c59;
+  --color-green-bright:    #5c9e6d;
+  --color-green-muted:     #3d5a45;
+  --color-purple:          #7c5cbf;
+  --color-purple-bright:   #9370db;
+  --color-purple-muted:    #4a3a6b;
+  --color-orange:          #d4845a;
+  --color-orange-bright:   #e89565;
+  --color-pink:            #c9647a;
+  --color-text:            #e4e4e7;
+  --color-text-muted:      #a1a1aa;
+  --color-text-dim:        #71717a;
+
+  --shadow-card:           0 2px 8px rgba(0,0,0,0.4), 0 0 1px rgba(255,255,255,0.05);
+  --shadow-glow-green:     0 0 20px rgba(74,124,89,0.25);
+  --shadow-glow-purple:    0 0 20px rgba(124,92,191,0.25);
+  --shadow-glow-orange:    0 0 20px rgba(212,132,90,0.2);
+
+  --gradient-hero-start:   #3d2b4f;
+  --gradient-hero-mid:     #09090b;
+  --gradient-hero-end:     #1a4a2e;
+}
+
+/* ===== Tailwind base layer ===== */
+@layer base {
+  html, body {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'Comic Neue', sans-serif;
+    color: var(--color-text);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--color-green);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ===== Component utility classes ===== */
+@layer components {
+  .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: var(--color-text-dim); }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+
+  .text-glow-green {
+    text-shadow: 0 0 12px rgba(90,125,90,0.3);
+  }
+  .dark .text-glow-green {
+    text-shadow: 0 0 12px rgba(74,124,89,0.3);
+  }
+  .text-glow-purple {
+    text-shadow: 0 0 12px rgba(124,107,158,0.3);
+  }
+  .dark .text-glow-purple {
+    text-shadow: 0 0 12px rgba(124,92,191,0.3);
+  }
+
+  @keyframes slide-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-slide-up {
+    animation: slide-up 0.4s ease-out forwards;
+  }
 }
